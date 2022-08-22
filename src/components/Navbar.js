@@ -7,7 +7,7 @@ export class Navbar extends Component {
   render() {
     return (
       <div>
-        <nav className="navbar navbar-expand-lg bg-dark">
+        <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
           <div className="container-fluid">
             <a className="navbar-brand" href="_">
               <strong style={{ color: "white" }}>React News</strong>
@@ -29,18 +29,44 @@ export class Navbar extends Component {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    style={{ color: "white" }}
-                    aria-current="page"
-                    href="_"
-                  >
-                    Home
+                  <a className="nav-link" aria-current="page" href="_">
+                    All
+                  </a>
+                </li>
+
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    Business
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" style={{ color: "white" }} href="_">
-                    Link
+                  <a className="nav-link" href="_">
+                    Entertainment
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    General
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    Health
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    Science
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    Sports
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="_">
+                    Technology
                   </a>
                 </li>
               </ul>
