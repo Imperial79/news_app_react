@@ -68,8 +68,8 @@ export class Navbar extends Component {
                       </a>
                     </li>
                   </ul>
-                </li> */}
-                {/* <li className="nav-item">
+                </li> 
+                <li className="nav-item">
                   <a className="nav-link disabled" href="_">
                     Disabled
                   </a>
