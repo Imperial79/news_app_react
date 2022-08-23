@@ -16,19 +16,24 @@ export class News extends Component {
     category: PropTypes.string,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       articles: [],
       loading: false,
       page: 1,
     };
+    document.title = "React News - " + this.capitalizeWord(this.props.category);
   }
 
   // CDM runs after the render() function
   async componentDidMount() {
     this.updatePageNews();
   }
+
+  capitalizeWord = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
 
   updatePageNews = async () => {
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=79c438c4094749039a2e537d1d603109&page=${this.state.page}&pageSize=${this.props.pageSize}`;
@@ -59,12 +64,12 @@ export class News extends Component {
   };
 
   render() {
-    let cat = this.props.category;
-    let heading = cat.charAt(0).toUpperCase() + cat.slice(1);
+    let heading = this.capitalizeWord(this.props.category);
 
     return (
       <div className="container my-3">
-        <h2 style={{ margin: "30px 0px" }}>Top Headlines - {heading}</h2>
+        <h6 style={{ letterSpacing: "10px" }}>TOP HEADLINES</h6>
+        <h3 style={{ marginBottom: "30px" }}>{heading}</h3>
         {this.state.loading && <Spinner />}
         <div className="row">
           {!this.state.loading &&
