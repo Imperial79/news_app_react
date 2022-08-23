@@ -18,7 +18,7 @@ export class NewsItem extends Component {
           />
           <div className="card-body">
             <h5 className="card-title">{title}</h5>
-            <span class="badge text-bg-info my-2">{source}</span>
+            <span className="badge text-bg-info my-2">{source}</span>
             {description && <p className="card-text">{description}</p>}
             {author && (
               <p className="card-text">
