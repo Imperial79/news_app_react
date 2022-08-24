@@ -3,10 +3,11 @@ import NewsItem from "./NewsItem";
 import Loader from "./Loader";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
   const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
 
@@ -35,43 +36,73 @@ const News = (props) => {
     // eslint-disable-next-line
   }, []);
 
-  const nextPage = async () => {
+  const fetchMoreData = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      props.country
+    }&category=${props.category}&apiKey=${props.apiKey}&page=${
+      page + 1
+    }&pageSize=${props.pageSize}`;
     setPage(page + 1);
-    updatePageNews();
+    setLoading(true);
+    let data = await fetch(url);
+    let parsedData = await data.json();
+
+    setArticles(articles.concat(parsedData.articles));
+    setTotalResults(parsedData.totalResults);
+    setLoading(false);
   };
 
-  const prevPage = async () => {
-    setPage(page - 1);
-    updatePageNews();
-  };
+  // const nextPage = async () => {
+  //   setPage(page + 1);
+  //   updatePageNews();
+  // };
+
+  // const prevPage = async () => {
+  //   setPage(page - 1);
+  //   updatePageNews();
+  // };
 
   let heading = capitalizeWord(props.category);
 
   return (
-    <div className="container my-3">
-      <h6 style={{ letterSpacing: "10px" }}>TOP HEADLINES</h6>
-      <h3 style={{ marginBottom: "30px" }}>{heading}</h3>
-      {loading && <Loader />}
-      <div className="row">
-        {!loading &&
-          articles.map((element) => {
-            return (
-              // Returning news item
-              <div className="col-md-4 my-2" key={element.url}>
-                <NewsItem
-                  title={element.title}
-                  description={element.description}
-                  imgUrl={element.urlToImage}
-                  newsUrl={element.url}
-                  publishedAt={element.publishedAt}
-                  author={element.author}
-                  source={element.source["name"]}
-                />
-              </div>
-            );
-          })}
+    <>
+      <div className="container my-3">
+        <h6 style={{ letterSpacing: "10px" }}>TOP HEADLINES</h6>
+        <h3>
+          <strong>{heading}</strong>
+        </h3>
       </div>
-      <div className="d-flex justify-content-between my-5">
+
+      {loading && <Loader />}
+
+      <InfiniteScroll
+        dataLength={articles.length}
+        next={fetchMoreData}
+        hasMore={articles.length !== totalResults}
+        loader={<Loader />}
+      >
+        <div className="container">
+          <div className="row">
+            {articles.map((element) => {
+              return (
+                // Returning news item
+                <div className="col-md-4 my-2" key={element.url}>
+                  <NewsItem
+                    title={element.title}
+                    description={element.description}
+                    imgUrl={element.urlToImage}
+                    newsUrl={element.url}
+                    publishedAt={element.publishedAt}
+                    author={element.author}
+                    source={element.source["name"]}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </InfiniteScroll>
+      {/* <div className="d-flex justify-content-between my-5">
         <button
           disabled={page <= 1}
           className="btn btn-dark"
@@ -88,8 +119,8 @@ const News = (props) => {
         >
           Next &rarr;
         </button>
-      </div>
-    </div>
+      </div> */}
+    </>
   );
 };
 News.defaultProps = {
