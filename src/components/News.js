@@ -66,8 +66,10 @@ const News = (props) => {
 
   return (
     <>
-      <div className="container my-3">
-        <h6 style={{ letterSpacing: "10px" }}>TOP HEADLINES</h6>
+      <div className="container my-3" style={{}}>
+        <h6 style={{ letterSpacing: "10px", marginTop: "80px" }}>
+          TOP HEADLINES
+        </h6>
         <h3>
           <strong>{heading}</strong>
         </h3>
