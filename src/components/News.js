@@ -26,7 +26,7 @@ export class News extends Component {
     document.title = "React News - " + this.capitalizeWord(this.props.category);
   }
 
-  // CDM runs after the render() function
+  // componentDidMount() ("init") runs after the render() ("build") function
   async componentDidMount() {
     this.updatePageNews();
   }
@@ -36,7 +36,8 @@ export class News extends Component {
   };
 
   updatePageNews = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=79c438c4094749039a2e537d1d603109&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(10);
+    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({ loading: true });
     if (
       this.state.page + 1 >
@@ -45,11 +46,12 @@ export class News extends Component {
     } else {
       let data = await fetch(url);
       let parsedData = await data.json();
-
+      this.props.setProgress(70);
       this.setState({
         articles: parsedData.articles,
         loading: false,
       });
+      this.props.setProgress(100);
     }
   };
 
